@@ -16,7 +16,9 @@
 <div class="top-navbar d-flex border-bottom">
     <div class="container d-flex justify-content-between flex-column flex-lg-row">
         <div class="top-contact-box border-bottom d-flex flex-column flex-md-row align-items-center justify-content-center">
-
+            @if(!empty($generalSettings['logo']))
+            <img src="{{ $generalSettings['logo'] }}" class="img-cover" alt="site logo">
+        @endif
             @if(getOthersPersonalizationSettings('platform_phone_and_email_position') == 'header')
                 <div class="d-flex align-items-center justify-content-center mr-15 mr-md-30">
                     @if(!empty($generalSettings['site_phone']))
@@ -64,6 +66,7 @@
                     <div class="mr-15 mx-md-20"></div>
                 @endif
 
+                @if(auth()->check())
 
                 <form action="/search" method="get" class="form-inline my-2 my-lg-0 navbar-search position-relative">
                     <input class="form-control mr-5 rounded" type="text" name="search" placeholder="{{ trans('navbar.search_anything') }}" aria-label="Search">
@@ -72,10 +75,14 @@
                         <i data-feather="search" width="20" height="20" class="mr-10"></i>
                     </button>
                 </form>
+
+                @endif
             </div>
         </div>
 
         <div class="xs-w-100 d-flex align-items-center justify-content-between ">
+            @if(auth()->check())
+
             <div class="d-flex">
 
                 @include(getTemplate().'.includes.shopping-cart-dropdwon')
@@ -85,6 +92,7 @@
                 @include(getTemplate().'.includes.notification-dropdown')
             </div>
 
+            @endif
             {{-- User Menu --}}
             @include('web.default.includes.top_nav.user_menu')
         </div>

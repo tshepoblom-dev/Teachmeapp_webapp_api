@@ -18,7 +18,7 @@
         <div class="top-contact-box border-bottom d-flex flex-column flex-md-row align-items-center justify-content-center">
             @if(!empty($generalSettings['logo']))
             <img src="{{ $generalSettings['logo'] }}" class="img-cover" alt="site logo">
-        @endif
+            @endif
             @if(getOthersPersonalizationSettings('platform_phone_and_email_position') == 'header')
                 <div class="d-flex align-items-center justify-content-center mr-15 mr-md-30">
                     @if(!empty($generalSettings['site_phone']))

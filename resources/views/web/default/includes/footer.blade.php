@@ -7,6 +7,7 @@
     $footerColumns = getFooterColumns();
 @endphp
 
+
 <footer class="footer bg-secondary position-relative user-select-none">
    {{--
     <div class="container">
@@ -41,10 +42,12 @@
         $columns = ['first_column','second_column','third_column','forth_column'];
     @endphp
 
+
     <div class="container">
         <div class="row">
 
-            @foreach($columns as $column)
+            {{--
+             @foreach($columns as $column)
                 <div class="col-6 col-md-4">
                     @if(!empty($footerColumns[$column]))
                         @if(!empty($footerColumns[$column]['title']))
@@ -59,6 +62,7 @@
                     @endif
                 </div>
             @endforeach
+            --}}
 
         </div>
 
@@ -92,7 +96,8 @@
                     @if(!empty($generalSettings['site_phone']))
                         <div class="d-flex align-items-center text-white font-14">
                             <i data-feather="phone" width="20" height="20" class="mr-10"></i>
-                            {{ $generalSettings['site_phone'] }}
+                            <a href="tel:{{ $generalSettings['site_phone'] }}" style="color:white">
+                            {{ $generalSettings['site_phone'] }}</a>
                         </div>
                     @endif
 
@@ -101,7 +106,8 @@
 
                         <div class="d-flex align-items-center text-white font-14">
                             <i data-feather="mail" width="20" height="20" class="mr-10"></i>
-                            {{ $generalSettings['site_email'] }}
+                            <a href="mailto:{{ $generalSettings['site_email'] }}" style="color:white">
+                            {{ $generalSettings['site_email'] }}</a>
                         </div>
                     @endif
                 </div>

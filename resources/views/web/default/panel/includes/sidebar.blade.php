@@ -41,12 +41,14 @@
     </div>
 
     <div class="d-flex sidebar-user-stats pb-10 ml-20 pb-lg-20 mt-15 mt-lg-30">
+        {{--
         <div class="sidebar-user-stat-item d-flex flex-column">
             <strong class="text-center">{{ $authUser->webinars()->count() }}</strong>
             <span class="font-12">{{ trans('panel.classes') }}</span>
         </div>
 
         <div class="border-left mx-30"></div>
+        --}}
 
         @if($authUser->isUser())
             <div class="sidebar-user-stat-item d-flex flex-column">
@@ -61,7 +63,7 @@
         @endif
     </div>
 
-    <ul id="panel-sidebar-scroll" class="sidebar-menu pt-10 @if(!empty($authUser->userGroup)) has-user-group @endif @if(empty($getPanelSidebarSettings) or empty($getPanelSidebarSettings['background'])) without-bottom-image @endif" @if((!empty($isRtl) and $isRtl)) data-simplebar-direction="rtl" @endif>
+    <ul id="panel-sidebar-scroll"  class="sidebar-menu pt-10 @if(!empty($authUser->userGroup)) has-user-group @endif @if(empty($getPanelSidebarSettings) or empty($getPanelSidebarSettings['background'])) without-bottom-image @endif" @if((!empty($isRtl) and $isRtl)) data-simplebar-direction="rtl" @endif>
 
         <li class="sidenav-item {{ (request()->is('panel')) ? 'sidenav-item-active' : '' }}">
             <a href="/panel" class="d-flex align-items-center">
@@ -128,7 +130,7 @@
                 </li>
             @endcan
         @endif
-
+{{--
         @can('panel_webinars')
             <li class="sidenav-item {{ (request()->is('panel/webinars') or request()->is('panel/webinars/*')) ? 'sidenav-item-active' : '' }}">
                 <a class="d-flex align-items-center" data-toggle="collapse" href="#webinarCollapse" role="button" aria-expanded="false" aria-controls="webinarCollapse">
@@ -304,7 +306,7 @@
             @endcan
         @endif
 
-
+--}}
         @can('panel_meetings')
             <li class="sidenav-item {{ (request()->is('panel/meetings') or request()->is('panel/meetings/*')) ? 'sidenav-item-active' : '' }}">
                 <a class="d-flex align-items-center" data-toggle="collapse" href="#meetingCollapse" role="button" aria-expanded="false" aria-controls="meetingCollapse">
@@ -341,7 +343,7 @@
             </li>
         @endcan
 
-
+{{--
         @can('panel_quizzes')
             <li class="sidenav-item {{ (request()->is('panel/quizzes') or request()->is('panel/quizzes/*')) ? 'sidenav-item-active' : '' }}">
                 <a class="d-flex align-items-center" data-toggle="collapse" href="#quizzesCollapse" role="button" aria-expanded="false" aria-controls="quizzesCollapse">
@@ -391,6 +393,7 @@
                 </div>
             </li>
         @endcan
+        --}}
 
         @if(!empty(getCertificateMainSettings("status")))
             @can('panel_certificates')
@@ -539,11 +542,13 @@
                             </li>
                         @endcan
 
-                        @can('panel_financial_subscribes')
+                        {{--
+                         @can('panel_financial_subscribes')
                             <li class="mt-5 {{ (request()->is('panel/financial/subscribes')) ? 'active' : '' }}">
                                 <a href="/panel/financial/subscribes">{{ trans('financial.subscribes') }}</a>
                             </li>
                         @endcan
+                        --}}
 
                         @if(($authUser->isOrganization() || $authUser->isTeacher()) and getRegistrationPackagesGeneralSettings('status'))
                             @can("panel_financial_registration_packages")
@@ -583,11 +588,13 @@
                             </li>
                         @endcan
 
+                        {{--
                         @can('panel_support_lists')
                             <li class="mt-5 {{ (request()->is('panel/support')) ? 'active' : '' }}">
                                 <a href="/panel/support">{{ trans('panel.classes_support') }}</a>
                             </li>
-                        @endcan
+                         @endcan
+                         --}}
 
                         @can('panel_support_tickets')
                             <li class="mt-5 {{ (request()->is('panel/support/tickets')) ? 'active' : '' }}">
@@ -600,7 +607,7 @@
             </li>
         @endcan
 
-
+{{--
         @if(!$authUser->isUser() or (!empty($referralSettings) and $referralSettings['status'] and $authUser->affiliate) or (!empty(getRegistrationBonusSettings('status')) and $authUser->enable_registration_bonus))
             @can('panel_marketing')
                 <li class="sidenav-item {{ (request()->is('panel/marketing') or request()->is('panel/marketing/*')) ? 'sidenav-item-active' : '' }}">
@@ -788,6 +795,8 @@
             @endcan
         @endif
 
+        --}}
+
         @php
             $rewardSetting = getRewardsSettings();
         @endphp
@@ -866,11 +875,12 @@
 
     </ul>
 
-    @if(!empty($getPanelSidebarSettings) and !empty($getPanelSidebarSettings['background']))
+     {{-- @if(!empty($getPanelSidebarSettings) and !empty($getPanelSidebarSettings['background']))
         <div class="sidebar-create-class d-none d-md-block">
             <a href="{{ !empty($getPanelSidebarSettings['link']) ? $getPanelSidebarSettings['link'] : '' }}" class="sidebar-create-class-btn d-block text-right p-5">
                 <img src="{{ !empty($getPanelSidebarSettings['background']) ? $getPanelSidebarSettings['background'] : '' }}" alt="">
             </a>
         </div>
     @endif
+    --}}
 </div>

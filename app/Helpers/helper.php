@@ -935,7 +935,10 @@ function currencySign($currency = null)
 function getCountriesMobileCode()
 {
     return [
-        'USA (+1)' => '+1',
+        'South Africa (+27)' => '+27',
+    ];
+}
+      /*  'USA (+1)' => '+1',
         'UK (+44)' => '+44',
         'Algeria (+213)' => '+213',
         'Andorra (+376)' => '+376',
@@ -1149,13 +1152,14 @@ function getCountriesMobileCode()
         'Yemen (North)(+969)' => '+969',
         'Yemen (South)(+967)' => '+967',
         'Zambia (+260)' => '+260',
-        'Zimbabwe (+263)' => '+263',
-    ];
-}
+        'Zimbabwe (+263)' => '+263',*/
+
 
 function getCountriesLists($code = null)
 {
     $countries = [
+        'ZA' => 'South Africa',
+        /*
         'AF' => 'Afghanistan',
         'AX' => 'Aland Islands',
         'AL' => 'Albania',
@@ -1404,7 +1408,7 @@ function getCountriesLists($code = null)
         'EH' => 'Western Sahara',
         'YE' => 'Yemen',
         'ZM' => 'Zambia',
-        'ZW' => 'Zimbabwe',
+        'ZW' => 'Zimbabwe',*/
     ];
 
     if (!empty($code) and !empty($countries[$code])) {
@@ -2602,7 +2606,7 @@ function convertToMB($size, $unit = 'B')
 
 function checkMobileNumber($phoneNumber)
 {
-    if (preg_match('/^\+\d{12}$/', $phoneNumber)) {
+    if (preg_match('/^\+\d{11}$/', $phoneNumber)) {
         return true;
     }
 

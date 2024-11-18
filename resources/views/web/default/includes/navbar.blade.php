@@ -34,7 +34,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="mx-lg-30 d-none d-lg-flex flex-grow-1 navbar-toggle-content " id="navbarContent">
+          {{--  <div class="mx-lg-30 d-none d-lg-flex flex-grow-1 navbar-toggle-content " id="navbarContent">
                 <div class="navbar-toggle-header text-right d-lg-none">
                     <button class="btn-transparent" id="navbarClose">
                         <i data-feather="x" width="32" height="32"></i>
@@ -100,7 +100,7 @@
                         @endforeach
                     @endif
                 </ul>
-            </div>
+            </div> --}}
 
             <div class="nav-icons-or-start-live navbar-order d-flex align-items-center justify-content-end">
 

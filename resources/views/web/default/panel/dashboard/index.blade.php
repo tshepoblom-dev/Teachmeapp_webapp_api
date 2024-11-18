@@ -27,7 +27,7 @@
                 <a href="/panel/setting/step/7" class="text-decoration-underline">{{ trans('panel.this_link') }}</a>.
             </div>
         @endif
-
+{{--
         <div class="bg-white dashboard-banner-container position-relative px-15 px-ld-35 py-10 panel-shadow rounded-sm">
             <h2 class="font-30 text-primary line-height-1">
                 <span class="d-block">{{ trans('panel.hi') }} {{ $authUser->full_name }},</span>
@@ -51,7 +51,7 @@
             <div class="dashboard-banner">
                 <img src="{{ getPageBackgroundSettings('dashboard') }}" alt="" class="img-cover">
             </div>
-        </div>
+        </div> --}}
     </section>
 
     <section class="dashboard">

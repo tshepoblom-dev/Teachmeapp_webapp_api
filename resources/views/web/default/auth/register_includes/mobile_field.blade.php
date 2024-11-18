@@ -18,7 +18,7 @@
 
     <div class="col-7">
         <div class="form-group">
-            <label class="input-label" for="mobile">{{ trans('auth.mobile') }} {{ !empty($optional) ? "(". trans('public.optional') .")" : '' }}:</label>
+            <label class="input-label" for="mobile">{{ trans('auth.mobile') }}:</label>
             <input name="mobile" type="text" class="form-control @error('mobile') is-invalid @enderror"
                    value="{{ old('mobile') }}" id="mobile" aria-describedby="mobileHelp">
 

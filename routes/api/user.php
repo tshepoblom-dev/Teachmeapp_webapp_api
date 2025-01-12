@@ -156,8 +156,10 @@ Route::group([], function () {
     Route::group(['prefix' => 'payments'], function () {
         Route::post('/request', 'PaymentsController@paymentRequest');
         Route::post('/credit', 'PaymentsController@paymentByCredit');
-        Route::get('/verify/{gateway}', ['as' => 'payment_verify', 'uses' => 'PaymentController@paymentVerify']);
-        Route::post('/verify/{gateway}', ['as' => 'payment_verify_post', 'uses' => 'PaymentController@paymentVerify']);
+        //Route::get('/verify/{gateway}', ['as' => 'payment_verify', 'uses' => 'PaymentsController@paymentVerify']);
+        //Route::post('/verify/{gateway}', ['as' => 'payment_verify_post', 'uses' => 'PaymentsController@paymentVerify']);
+        Route::get('/verify/{gateway}', ['as' => 'payments_verify', 'uses' => 'PaymentsController@paymentVerify']);
+        Route::post('/verify/{gateway}', ['as' => 'payments_verify_post', 'uses' => 'PaymentsController@paymentVerify']);
     });
     Route::group(['prefix' => 'profile-setting'], function () {
         Route::get('/', ['uses' => 'UsersController@setting']);
@@ -192,8 +194,8 @@ Route::group([], function () {
 
 
     /***** blogs *****/
-    Route::apiResource('blogs/comments', BlogCommentController::class)->middleware('api.level-access:teacher');
-    Route::apiResource('blogs', BlogController::class)->middleware('api.level-access:teacher');
+   // Route::apiResource('blogs/comments', BlogCommentController::class)->middleware('api.level-access:teacher');
+    //Route::apiResource('blogs', BlogController::class)->middleware('api.level-access:teacher');
 
 
     /***** delete account request *****/
@@ -247,7 +249,6 @@ Route::group([], function () {
     Route::get('/sessions/{session}', ['uses' => 'SessionController@show'])->name('session.show');;
     Route::get('/text-lessons/{lesson}', ['uses' => 'TextLessonController@show'])->name('text_lesson.show');
     Route::get('/text-lessons/{lesson}/navigation', ['uses' => 'WebinarTextLessonController@index']);
-    Route::get('/assignments/{assignment}', ['uses' => 'WebinarAssignmentController@show'])->name('assignment.show');
+    Route::get('/assignments/{assignment}', ['uses' => 'WebinarAssignmentController@show'])->name('webinarassignment.show');
     Route::get('/quizzes/{quiz}', ['uses' => 'QuizzesController@show'])->name('quiz.show');
-
 });

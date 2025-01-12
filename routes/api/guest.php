@@ -93,6 +93,8 @@ Route::group([], function () {
     });
     Route::get('/product_categories', ['uses' => 'ProductCategoryController@index']);
 
+  //  Route::post('/upload-files', ['uses' => 'UserController@registerFilesUpload']);
+
 });
 
 

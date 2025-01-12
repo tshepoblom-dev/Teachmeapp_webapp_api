@@ -32,7 +32,6 @@ Route::group(['prefix' => '/development'], function () {
 
     Route::prefix('instructor')->middleware(['api.auth', 'api.level-access:teacher'])->namespace('Instructor')->group(base_path('routes/api/instructor.php'));
 
-
-
+    //Route::post('/upload-files', ['uses' => 'Auth\RegisterController@registerFilesUpload'])->withoutMiddleware(['api.identify', 'api.auth']);
 
 });

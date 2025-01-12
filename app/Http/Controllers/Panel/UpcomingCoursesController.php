@@ -19,6 +19,9 @@ class UpcomingCoursesController extends Controller
 {
     public function __construct()
     {
+        if (app()->runningInConsole()) {
+            return; // Skip execution during Artisan commands
+        }
         if (empty(getFeaturesSettings('upcoming_courses_status'))) {
             abort(404);
         }

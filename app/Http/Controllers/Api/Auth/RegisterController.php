@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Api\Auth\VerificationController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\UploadFileManager;
 use App\Models\Affiliate;
 use App\Models\Role;
 use App\User;
+use Exception;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -115,10 +117,8 @@ class RegisterController extends Controller
 */
         ]);
 
-
         $verificationController = new VerificationController();
         $verificationController->checkConfirmed($user, $username, $data[$username]);
-
 
         return apiResponse2('1', 'stored', trans('api.public.stored'), [
             'user_id' => $user->id
@@ -181,6 +181,106 @@ class RegisterController extends Controller
 
         return $this->username ?? '';
     }
+    public function registerFilesUpload(Request $request)
+    {
+        \Log::info($request->all());
+        try
+        {
+            $value = $request->input('userId');
+            $cleanValue = trim($value, '"');
+            $user = User::find($cleanValue);
+            if ($request->file('idDocument')) {
 
+                $storage = new UploadFileManager($request->file('idDocument'),$user);
 
+                $user->update([
+                    'identity_scan' => $storage->storage_path,
+                ]);
+            }
+            if ($request->file('qualification')) {
+
+                $storage = new UploadFileManager($request->file('qualification'),$user);
+
+                $user->update([
+                    'certificate' => $storage->storage_path,
+                ]);
+            }
+            if ($request->file('cv')) {
+                $storage = new UploadFileManager($request->file('cv'),$user);
+                $user->update([
+                    'cvdoc' => $storage->storage_path,
+                ]);
+            }
+
+            if ($request->file('proofOfAddress')) {
+                $storage = new UploadFileManager($request->file('proofOfAddress'),$user);
+                $user->update([
+                    'proofofaddress' => $storage->storage_path,
+                ]);
+            }
+
+            if ($request->file('bankAccountLetter')) {
+                $storage = new UploadFileManager($request->file('bankAccountLetter'),$user);
+                $user->update([
+                    'bankconfirmation' => $storage->storage_path,
+                ]);
+            }
+
+            return apiResponse2(1, 'updated', trans('api.public.updated'),$user);
+
+        }
+        catch(Exception $ex)
+        {
+            \Log::error($ex->getMessage());
+            return apiResponse2(0, 'error', $ex->getMessage());
+        }
+    }
+/*
+    public function registerFilesUpload(Request $request)
+    {
+        //$user = apiAuth();
+        $user = User::find($request->input('user_id'));
+
+        if ($request->file('idDocument')) {
+
+            $storage = new UploadFileManager($request->file('idDocument'));
+
+            $user->update([
+                'identity_scan' => $storage->storage_path,
+            ]);
+
+        }
+
+        if ($request->file('qualification')) {
+
+            $storage = new UploadFileManager($request->file('qualification'));
+
+            $user->update([
+                'certificate' => $storage->storage_path,
+            ]);
+
+        }
+        if ($request->file('cv')) {
+            $storage = new UploadFileManager($request->file('cv'));
+            $user->update([
+                'cv' => $storage->storage_path,
+            ]);
+        }
+
+        if ($request->file('proofOfAddress')) {
+            $storage = new UploadFileManager($request->file('proofOfAddress'));
+            $user->update([
+                'proof_of_address' => $storage->storage_path,
+            ]);
+        }
+
+        if ($request->file('bankAccountLetter')) {
+            $storage = new UploadFileManager($request->file('bankAccountLetter'));
+            $user->update([
+                'bank_confirmation' => $storage->storage_path,
+            ]);
+        }
+        return apiResponse2(1, 'updated', trans('api.public.updated'));
+    }
+*/
 }

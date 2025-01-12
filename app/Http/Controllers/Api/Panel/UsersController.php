@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Controller;
 use App\Http\Controllers\Api\Objects\UserObj;
 use App\Models\Category;
 use App\Models\Newsletter;
+use App\Http\Controllers\Api\UploadFileManager;
 
 use App\Models\Reward;
 use App\Models\RewardAccounting;
@@ -21,8 +22,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
-use App\Http\Controllers\Api\UploadFileManager;
-
 
 class UsersController extends Controller
 
@@ -36,8 +35,6 @@ class UsersController extends Controller
                 'user' => $user->details
             ]
         );
-
-
     }
 
     public function updateImages(Request $request)
@@ -69,14 +66,30 @@ class UsersController extends Controller
                 'certificate' => $storage->storage_path,
             ]);
 
-
+        }
+        if ($request->file('cv')) {
+            $storage = new UploadFileManager($request->file('cv'));
+            $user->update([
+                'cv' => $storage->storage_path,
+            ]);
         }
 
+        if ($request->file('proof_of_address')) {
+            $storage = new UploadFileManager($request->file('proof_of_address'));
+            $user->update([
+                'proof_of_address' => $storage->storage_path,
+            ]);
+        }
+
+        if ($request->file('bank_confirmation')) {
+            $storage = new UploadFileManager($request->file('bank_confirmation'));
+            $user->update([
+                'bank_confirmation' => $storage->storage_path,
+            ]);
+        }
         return apiResponse2(1, 'updated', trans('api.public.updated'));
 
-
     }
-
 
     public function update(Request $request)
     {

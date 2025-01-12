@@ -26,7 +26,9 @@ class ForumController extends Controller
         $forumsStatus = getFeaturesSettings('forums_status');
 
         if (empty($forumsStatus) or $forumsStatus == '0') {
-            abort(403);
+           // abort(403);
+           //abort(404, 'Resource not found');
+           return;
         }
     }
 

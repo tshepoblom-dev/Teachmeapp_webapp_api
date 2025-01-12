@@ -15,11 +15,14 @@ class UploadFileManager extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
+      protected $user;
 
       public function private_folder_name(){
+        if(apiAuth() != null)
+            return apiAuth()->id;
 
-        return apiAuth()->id ;
+        if ($this->user != null)
+            return $this->user->id;
       }
 
       public function base_directory(){
@@ -36,8 +39,18 @@ class UploadFileManager extends Controller
       }
 
 
-     public function __construct($file,$sub_directory=null)
+   /*  public function __construct($file,$sub_directory=null)
      {
+         $fileName = $file->getClientOriginalName() ;
+         $path=$this->path() .'/'.$sub_directory;
+         $storage_path= $file->storeAs($path
+             , $fileName);
+         $this->storage_path='store/' . $storage_path ;
+     }*/
+
+     public function __construct($file,$user=null,$sub_directory=null)
+     {
+         $this->user = $user;
          $fileName = $file->getClientOriginalName() ;
          $path=$this->path() .'/'.$sub_directory;
          $storage_path= $file->storeAs($path
@@ -45,11 +58,8 @@ class UploadFileManager extends Controller
          $this->storage_path='store/' . $storage_path ;
      }
 
-
     public function __invoke(Request $request)
     {
-     dd('dd') ;
-
-
+        dd('dd') ;
     }
 }

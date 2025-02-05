@@ -8,15 +8,15 @@
     <div class="container">
 
         <div class="row login-container">
-            <div class="col-12 col-md-6 pl-0">
+      {{--      <div class="col-12 col-md-6 pl-0">
                 <img src="{{ getPageBackgroundSettings('become_instructor') }}" class="img-cover" alt="Login">
-            </div>
+            </div> --}}
 
             <div class="col-12 col-md-6">
                 <div class="login-card">
                     <h1 class="font-20 font-weight-bold">{{ trans('site.become_instructor') }}</h1>
 
-                    <form method="Post" action="/become-instructor" class="mt-35">
+                    <form method="Post" action="/become-instructor" enctype="multipart/form-data" class="mt-35">
                         {{ csrf_field() }}
 
                         <div class="form-group">
@@ -47,7 +47,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <input type="hidden" value="{{ \App\Models\Role::$teacher }}" name="role" />
+                    {{--    <div class="form-group">
                             <label class="js-instructor-label font-weight-500 text-dark-blue {{ !$isInstructorRole ? 'd-none' : '' }}">{{ trans('update.instructor_select_role') }}</label>
                             <label class="js-organization-label font-weight-500 text-dark-blue {{ !$isOrganizationRole ? 'd-none' : '' }}">{{ trans('update.organization_select_role') }}</label>
 
@@ -62,21 +63,8 @@
                                 {{ $message }}
                             </div>
                             @enderror
-                        </div>
+                        </div> --}}
 
-                        <div class="form-group">
-                            <label class="js-instructor-label font-weight-500 text-dark-blue {{ !$isInstructorRole ? 'd-none' : '' }}">{{ trans('update.instructor_certificate_and_documents') }}</label>
-                            <label class="js-organization-label font-weight-500 text-dark-blue {{ !$isOrganizationRole ? 'd-none' : '' }}">{{ trans('update.organization_certificate_and_documents') }}</label>
-
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <button type="button" class="input-group-text panel-file-manager" data-input="certificate" data-preview="holder">
-                                        <i data-feather="arrow-up" width="18" height="18" class="text-white"></i>
-                                    </button>
-                                </div>
-                                <input type="text" name="certificate" id="certificate" value="{{ !empty($lastRequest) ? $lastRequest->certificate : old('certificate') }}" class="form-control "/>
-                            </div>
-                        </div>
 
                         <div class="form-group">
                             <label class="js-instructor-label font-weight-500 text-dark-blue {{ !$isInstructorRole ? 'd-none' : '' }}">{{ trans('update.instructor_select_account_type') }}</label>
@@ -109,17 +97,34 @@
                             @endif
                         </div>
 
+                        <div class="form-group">
+                            <label class="js-instructor-label font-weight-500 text-dark-blue {{ !$isInstructorRole ? 'd-none' : '' }}">{{ trans('update.instructor_certificate_and_documents') }}</label>
+                            <label class="js-organization-label font-weight-500 text-dark-blue {{ !$isOrganizationRole ? 'd-none' : '' }}">{{ trans('update.organization_certificate_and_documents') }}</label>
+
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <!--<button type="button" class="input-group-text panel-file-manager" data-input="certificate" data-preview="holder">-->
+                                    <button type="button" class="input-group-text" data-input="certificate" data-preview="holder">
+                                        <i data-feather="arrow-up" width="18" height="18" class="text-white"></i>
+                                    </button>
+                                </div>
+                               {{-- <input type="text" name="certificate" id="certificate" value="{{ !empty($lastRequest) ? $lastRequest->certificate : old('certificate') }}" class="form-control "/> --}}
+                               <input type="file" name="certificate" id="certificate" class="form-control"/>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <label class="js-instructor-label font-weight-500 text-dark-blue {{ !$isInstructorRole ? 'd-none' : '' }}">{{ trans('update.instructor_identity_scan') }}</label>
                             <label class="js-organization-label font-weight-500 text-dark-blue {{ !$isOrganizationRole ? 'd-none' : '' }}">{{ trans('update.organization_identity_scan') }}</label>
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <button type="button" class="input-group-text panel-file-manager" data-input="identity_scan" data-preview="holder">
+                                    <!--<button type="button" class="input-group-text panel-file-manager" data-input="identity_scan" data-preview="holder">-->
+                                    <button type="button" class="input-group-text" data-input="identity_scan" data-preview="holder">
                                         <i data-feather="arrow-up" width="18" height="18" class="text-white"></i>
                                     </button>
                                 </div>
-                                <input type="text" name="identity_scan" id="identity_scan" value="{{ (!empty($user)) ? $user->identity_scan : old('identity_scan') }}" class="form-control @error('identity_scan')  is-invalid @enderror"/>
+                                <input type="file" name="identity_scan" id="identity_scan" class="form-control @error('identity_scan') is-invalid @enderror"/>
+                                <!--<input type="text" name="identity_scan" id="identity_scan" value="{{ (!empty($user)) ? $user->identity_scan : old('identity_scan') }}" class="form-control @error('identity_scan')  is-invalid @enderror"/> -->
                                 @error('identity_scan')
                                 <div class="invalid-feedback">
                                     {{ $message }}
@@ -128,6 +133,41 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="js-instructor-label font-weight-500 text-dark-blue {{ !$isInstructorRole ? 'd-none' : '' }}">{{ trans('update.instructor_cv') }}</label>
+                            <label class="js-organization-label font-weight-500 text-dark-blue {{ !$isOrganizationRole ? 'd-none' : '' }}">{{ trans('update.instructor_cv') }}</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <button type="button" class="input-group-text" data-input="cv" data-preview="holder">
+                                        <i data-feather="arrow-up" width="18" height="18" class="text-white"></i>
+                                    </button>
+                                </div>
+                                <input type="file" name="cv" id="cv" class="form-control @error('cv') is-invalid @enderror"/>
+                                @error('identity_scan')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="js-instructor-label font-weight-500 text-dark-blue {{ !$isInstructorRole ? 'd-none' : '' }}">{{ trans('update.instructor_poa') }}</label>
+                            <label class="js-organization-label font-weight-500 text-dark-blue {{ !$isOrganizationRole ? 'd-none' : '' }}">{{ trans('update.instructor_poa') }}</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <button type="button" class="input-group-text" data-input="poa" data-preview="holder">
+                                        <i data-feather="arrow-up" width="18" height="18" class="text-white"></i>
+                                    </button>
+                                </div>
+                                <input type="file" name="poa" id="poa" class="form-control @error('poa') is-invalid @enderror"/>
+                                @error('poa')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="js-instructor-label font-weight-500 text-dark-blue {{ !$isInstructorRole ? 'd-none' : '' }}">{{ trans('update.instructor_extra_information') }}</label>
                             <label class="js-organization-label font-weight-500 text-dark-blue {{ !$isOrganizationRole ? 'd-none' : '' }}">{{ trans('update.organization_extra_information') }}</label>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Web\traits\InstallmentsTrait;
 use App\Http\Controllers\Web\traits\UserFormFieldsTrait;
+use App\Http\Controllers\Api\UploadFileManager;
 use App\Mixins\Installment\InstallmentPlans;
 use App\Mixins\RegistrationPackage\UserPackage;
 use App\Models\BecomeInstructor;
@@ -80,12 +81,22 @@ class BecomeInstructorController extends Controller
 
             $data = $request->all();
 
+           /* $rules = [
+                'role' => 'required',
+                'occupations' => 'required',
+                'certificate' => 'nullable|string',
+                'bank_id' => 'required',
+                'identity_scan' => 'required',
+                'description' => 'nullable|string',
+            ];*/
             $rules = [
                 'role' => 'required',
                 'occupations' => 'required',
                 'certificate' => 'nullable|string',
                 'bank_id' => 'required',
                 'identity_scan' => 'required',
+                'cv' => 'nullable',
+                'poa' => 'nullable',
                 'description' => 'nullable|string',
             ];
 
@@ -128,6 +139,19 @@ class BecomeInstructorController extends Controller
                 }
             }
 
+            $fileFields = [
+                'idDocument' => 'identity_scan',
+                'qualification' => 'certificate',
+                'cv' => 'cvdoc',
+                'proofOfAddress' => 'poa',
+            ];
+            $filesData = [];
+            foreach ($fileFields as $inputName => $column) {
+                if ($request->file($inputName)) {
+                    $storage = new UploadFileManager($request->file($inputName), $user);
+                    $updateData[$column] = $storage->storage_path;
+                }
+            }
             $lastRequest = BecomeInstructor::query()->updateOrCreate([
                 'user_id' => $user->id,
             ], [

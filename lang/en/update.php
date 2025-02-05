@@ -378,6 +378,8 @@ return [
 'instructor_account_id' => 'Account id',
 'organization_account_id' => 'Account id',
 'instructor_identity_scan' => 'Identity scan',
+'instructor_cv' => 'CV',
+'instructor_poa' => 'Proof of Address',
 'organization_identity_scan' => 'Registration scan',
 'instructor_extra_information' => 'Extra information',
 'organization_extra_information' => 'Extra information',

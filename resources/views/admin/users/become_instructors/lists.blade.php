@@ -21,9 +21,10 @@
                                 <table class="table table-striped font-14">
                                     <tr>
                                         <th>{{ trans('admin/main.user') }}</th>
-                                        <th class="text-center">{{ trans('update.package') }}</th>
+                                   {{-- <th class="text-center">{{ trans('update.package') }}</th> --}}
                                         <th class="text-center">{{ trans('admin/main.status') }}</th>
                                         <th class="text-center">{{ trans('admin/main.created_at') }}</th>
+                                        <th class="text-center">Documents</th>
                                         <th>{{ trans('admin/main.actions') }}</th>
                                     </tr>
 
@@ -35,10 +36,7 @@
                                                @else
                                                 <td class="text-danger">User Deleted</td>
                                                 @endif
-
-
-                                           
-
+{{--
                                             <td>
                                                 @if(!empty($become->registrationPackage))
                                                     {{ $become->registrationPackage->title }}
@@ -46,7 +44,7 @@
                                                     ---
                                                 @endif
                                             </td>
-
+--}}
                                             <td class="text-center">
                                                 <span class="{{ ($become->status == 'accept' ? 'text-success' : ($become->status == 'pending' ? 'text-warning' : 'text-danger')) }}">
                                                     @if($become->status == 'accept')
@@ -60,7 +58,7 @@
                                             </td>
 
                                             <td class="text-center">{{ dateTimeFormat($become->created_at, 'Y M j | H:i') }}</td>
-
+                                            <td class="text-center"></td>
                                             <td>
                                                 @can('admin_become_instructors_reject')
                                                     @if($become->status != 'accept')

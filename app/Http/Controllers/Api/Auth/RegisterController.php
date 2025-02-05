@@ -186,9 +186,36 @@ class RegisterController extends Controller
         \Log::info($request->all());
         try
         {
-            $value = $request->input('userId');
+           /* $value = $request->input('userId');
             $cleanValue = trim($value, '"');
-            $user = User::find($cleanValue);
+            $user = User::find($cleanValue);*/
+            $userId = filter_var($request->input('userId'), FILTER_SANITIZE_STRING);
+            $user = User::find($userId);
+
+            if (!$user) {
+                return apiResponse2(0, 'error', 'User not found.');
+            }
+            $fileFields = [
+                'idDocument' => 'identity_scan',
+                'qualification' => 'certificate',
+                'cv' => 'cvdoc',
+                'proofOfAddress' => 'proofofaddress',
+                'bankAccountLetter' => 'bankconfirmation'
+            ];
+            $updateData = [];
+            foreach ($fileFields as $inputName => $column) {
+                if ($request->file($inputName)) {
+                    $storage = new UploadFileManager($request->file($inputName), $user);
+                    $updateData[$column] = $storage->storage_path;
+                }
+            }
+
+            if (!empty($updateData)) {
+                $user->update($updateData);
+            }
+            return apiResponse2(1, 'updated', trans('api.public.updated'),$user);
+
+/*
             if ($request->file('idDocument')) {
 
                 $storage = new UploadFileManager($request->file('idDocument'),$user);
@@ -227,7 +254,7 @@ class RegisterController extends Controller
             }
 
             return apiResponse2(1, 'updated', trans('api.public.updated'),$user);
-
+*/
         }
         catch(Exception $ex)
         {

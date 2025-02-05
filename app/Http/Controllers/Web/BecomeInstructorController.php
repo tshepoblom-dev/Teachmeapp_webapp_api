@@ -13,6 +13,7 @@ use App\Models\Category;
 use App\Models\RegistrationPackage;
 use App\Models\Role;
 use App\Models\UserBank;
+use App\Models\User;
 use App\Models\UserOccupation;
 use App\Models\UserSelectedBank;
 use App\Models\UserSelectedBankSpecification;
@@ -72,6 +73,9 @@ class BecomeInstructorController extends Controller
 
     public function store(Request $request)
     {
+        if($request->input('userId')){
+            User::where('id', $request->input('userId'))->first();
+        }
         $user = auth()->user();
 
         if ($user->isUser()) {
@@ -92,11 +96,11 @@ class BecomeInstructorController extends Controller
             $rules = [
                 'role' => 'required',
                 'occupations' => 'required',
-                'certificate' => 'nullable|string',
-                'bank_id' => 'required',
+                'certificate' => 'required',
+                'bank_id' => 'nullable',
                 'identity_scan' => 'required',
-                'cv' => 'nullable',
-                'poa' => 'nullable',
+                'cv' => 'required',
+                'poa' => 'required',
                 'description' => 'nullable|string',
             ];
 
@@ -140,19 +144,29 @@ class BecomeInstructorController extends Controller
             }
 
             $fileFields = [
-                'idDocument' => 'identity_scan',
-                'qualification' => 'certificate',
+                'identity_scan' => 'identity_scan',
+                'certificate' => 'certificate',
                 'cv' => 'cvdoc',
-                'proofOfAddress' => 'poa',
+                'poa' => 'proofofaddress',
             ];
             $filesData = [];
+
             foreach ($fileFields as $inputName => $column) {
                 if ($request->file($inputName)) {
                     $storage = new UploadFileManager($request->file($inputName), $user);
-                    $updateData[$column] = $storage->storage_path;
+                    $filesData[$column] = $storage->storage_path;
                 }
             }
-            $lastRequest = BecomeInstructor::query()->updateOrCreate([
+            /*
+                $filesData = [
+                    'identity_scan' => '/1072/id.pdf',
+                    'certificate' => '/1072/cert.pdf',
+                    'cvdoc' => '/1072/cvdoc.pdf',
+                    'proofofaddress' => '/1072/proofofaddress.pdf',
+                ];
+
+            */
+          /*  $lastRequest = BecomeInstructor::query()->updateOrCreate([
                 'user_id' => $user->id,
             ], [
                 'role' => $data['role'],
@@ -164,8 +178,24 @@ class BecomeInstructorController extends Controller
             $user->update([
                 'identity_scan' => $data['identity_scan'],
                 'certificate' => $data['certificate'],
+            ]);*/
+
+            $lastRequest = BecomeInstructor::query()->updateOrCreate([
+                'user_id' => $user->id,
+            ], [
+                'role' => $data['role'],
+                'description' => $data['description'],
+                'created_at' => time(),
             ]);
 
+          /*  $user->update([
+                'identity_scan' => $filesData['identity_scan'],
+                'certificate' => $filesData['certificate'],
+                'proofofaddress' => $filesData['proofofaddress'],
+                'cvdoc' => $filesData['cvdoc'],
+            ]);*/
+            $user->update($filesData);
+/*
             UserSelectedBank::query()->where('user_id', $user->id)->delete();
             $userSelectedBank = UserSelectedBank::query()->create([
                 'user_id' => $user->id,
@@ -186,7 +216,7 @@ class BecomeInstructorController extends Controller
                 }
 
                 UserSelectedBankSpecification::query()->insert($specificationInsert);
-            }
+            }*/
 
             if (!empty($data['occupations'])) {
                 UserOccupation::where('user_id', $user->id)->delete();

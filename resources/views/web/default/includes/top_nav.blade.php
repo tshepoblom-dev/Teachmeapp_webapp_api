@@ -76,6 +76,7 @@
                     </button>
                 </form>
 
+                <a href="/become-instructor" class="form-control btn btn-primary">Become a tutor</a>
                 @endif
             </div>
         </div>

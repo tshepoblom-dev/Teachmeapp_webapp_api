@@ -143,7 +143,7 @@
                                     </button>
                                 </div>
                                 <input type="file" name="cv" id="cv" class="form-control @error('cv') is-invalid @enderror"/>
-                                @error('identity_scan')
+                                @error('cv')
                                 <div class="invalid-feedback">
                                     {{ $message }}
                                 </div>
